@@ -19,16 +19,18 @@ function updateDOMAfterFetchingData(data) {
   const tempContainer = document.querySelector(".weather-temp");
   const feelsLikeContainer = document.querySelector(".weather-feelslike");
   const conditionContainer = document.querySelector(".weather-conditions");
+  const degreeDiv = document.createElement("div");
 
   const icon = document.createElement("img");
   const tempDiv = document.createElement("div");
 
-  tempContainer.append(tempDiv);
+  tempContainer.append(tempDiv, degreeDiv);
   iconContainer.append(icon);
 
   icon.src = svgObject[data.icon];
   icon.setAttribute("alt", `${data.icon} Icon`);
 
+  degreeDiv.textContent = "°";
   cityNameContainer.textContent = data.address;
   tempDiv.textContent = data.temp;
   feelsLikeContainer.textContent = `${data.feelsLike}°`;
