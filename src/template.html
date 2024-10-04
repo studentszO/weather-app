@@ -3,9 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>project</title>
+    <title>szO's WeatherApp !</title>
   </head>
   <body>
-
+    <div class="weather-container">
+      <h1>Today's Weather</h1>
+      <form action="" novalidate>
+        <div>
+          <input
+            type="search"
+            placeholder="Search City or Zip Code or Coordinates"
+          /><button>GO</button>
+        </div>
+      </form>
+      <div class="weather-icon">
+        <img src="assets/weather_icons/clear-day.svg" alt="clearday" />
+      </div>
+      <div class="city-name"></div>
+      <hr />
+      <div class="weather-temps-container">
+        <div class="weather-temp">
+          <div>°</div>
+        </div>
+        <div class="weather-feelslike"></div>
+      </div>
+      <div class="weather-conditions"></div>
+      <div class="weather-sunrise-sunset">
+        <div class="weather-sunrise"></div>
+        <div class="weather-sunset"></div>
+      </div>
+    </div>
   </body>
 </html>
