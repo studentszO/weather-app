@@ -1,5 +1,24 @@
+@font-face {
+  font-family: "source_sans_proregular";
+  src:
+    url("assets/fonts/sourcesanspro-regular-webfont.woff2") format("woff2"),
+    url("assets/fonts/sourcesanspro-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "bebas_neueregular";
+  src:
+    url("assets/fonts/bebasneue-regular-webfont.woff2") format("woff2"),
+    url("assets/fonts/bebasneue-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
-  font-family: sans-serif;
+  font-family: "source_sans_proregular", "Franklin Gothic Medium",
+    "Arial Narrow", Arial, sans-serif;
 }
 
 * {
@@ -8,6 +27,8 @@
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
+  color: white;
+  z-index: 1;
 }
 
 html {
@@ -16,4 +37,216 @@ html {
   align-items: center;
   height: 100vh;
   background-image: url(./assets/bg.png);
+}
+
+h1 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  background-color: #ffffff38;
+  width: 100%;
+  height: 3.3rem;
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.192);
+}
+
+.weather-container {
+  background: #00c9ff; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #92fe9d,
+    #00c9ff
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #92fe9d,
+    #00c9ff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.692);
+  width: 40vh;
+  height: 60vh;
+  display: flex;
+  flex-flow: column wrap;
+  place-items: center;
+  justify-content: space-between;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+body {
+  position: relative;
+}
+
+.weather-container::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: calc(100% + 2 * 5px);
+  height: calc(100% + 2 * 5px);
+  z-index: -1;
+  background: linear-gradient(to left, #92fe9d, #00c9ff);
+  border-radius: 15px;
+  opacity: 0.4;
+}
+
+.weather-container::after,
+form > div::after {
+  content: "";
+  position: absolute;
+  top: -25px;
+  left: -25px;
+  width: calc(100% + 2 * 25px);
+  height: calc(100% + 2 * 25px);
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(126, 126, 126, 0.226);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(0.5px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+img {
+  width: 40%;
+}
+
+.weather-icon {
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.city-name {
+  font-family: "bebas_neueregular";
+  font-weight: 400;
+  font-size: 2rem;
+  letter-spacing: 3px;
+}
+.weather-temps-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.weather-temp {
+  font-weight: 600;
+  font-size: 10rem;
+  font-family: "bebas_neueregular";
+  display: flex;
+  align-items: start;
+}
+
+.weather-temp > div {
+  font-family: "source_sans_proregular";
+  font-weight: 100;
+  font-size: 7rem;
+  padding-left: 15px;
+  margin-top: -7px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to left, #ffffff00, #ffffff, #ffffff00);
+  width: 80%;
+  box-shadow:
+    rgb(17 17 26 / 54%) 2px 5px 8px 0px,
+    rgb(17 17 26 / 56%) 0px 8px 20px,
+    rgb(17 17 26 / 57%) 0px 16px 14px;
+}
+
+.weather-feelslike {
+  font-weight: 600;
+  margin-top: -2rem;
+}
+.weather-feelslike::before {
+  content: "FEELS LIKE: ";
+  opacity: 0.7;
+  letter-spacing: 3px;
+}
+
+.weather-conditions {
+  color: #eeeeee;
+  font-style: italic;
+}
+
+.weather-sunrise-sunset {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.weather-sunrise {
+}
+
+.weather-sunset {
+}
+
+.weather-sunrise::before {
+  content: "SUNRISE: ";
+  color: #eeeeee;
+}
+
+.weather-sunset::before {
+  color: #eeeeee;
+  content: "SUNSET: ";
+}
+form {
+  width: 70%;
+}
+form > div {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+form input,
+form button {
+  border-radius: 7px;
+  background-color: #7e7e7e3d;
+  padding: 7px 10px;
+  width: 85%;
+}
+
+form input {
+  border: 1px solid transparent;
+  outline: none;
+}
+
+form input:hover,
+form input:focus {
+  border: 1px solid rgba(255, 255, 255, 0.651);
+}
+
+form input::placeholder {
+  color: rgba(255, 255, 255, 0.63);
+}
+
+form button {
+  width: 13%;
+  margin-left: 3px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: linear-gradient(to right, #92fe9d98, #00c8ff83);
+  border: #ffffff 1px solid;
+}
+
+form > div::after {
+  z-index: -1;
+  top: -8px;
+  left: -8px;
+  width: calc(100% + 2 * 8px);
+  height: calc(100% + 2 * 8px);
 }
