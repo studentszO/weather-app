@@ -63,4 +63,11 @@ async function getWeatherData(location) {
   }
 }
 
-getWeatherData("stsebastien sur loire");
+const form = document.querySelector("form");
+
+form.addEventListener("submit", (event) => {
+  const input = document.querySelector("input[type='search']");
+  console.log(input.value);
+  event.preventDefault();
+  if (input.value.length > 0) getWeatherData(input.value);
+});
