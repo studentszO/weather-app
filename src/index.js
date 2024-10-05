@@ -9,6 +9,13 @@ const svgObject = svgContext.keys().reduce((acc, fileName) => {
   return acc;
 }, {});
 
+function FtoCCalcul(temp) {
+  const toCelsius = Math.round((temp - 32) * (5 / 9));
+  const toFahrenheit = Math.round(temp);
+
+  return { toCelsius, toFahrenheit };
+}
+
 function updateDOMAfterFetchingData(data) {
   // QUERIES
   const mainContainer = document.querySelector(".weather-container");
@@ -42,12 +49,16 @@ function updateDOMAfterFetchingData(data) {
   iconContainer.style.backgroundImage = `url("${svgObject[data.icon]}")`;
 
   // ADDING CONTENT TO THE DOM ELEMENTS
+  const minTemp = FtoCCalcul(data.temp);
+  const temp = FtoCCalcul(data.maxTemp);
+  const maxTemp = FtoCCalcul(data.minTemp);
+
   degreeDiv.textContent = "°";
   cityNameContainer.textContent = data.cityAddress;
   countryNameContainer.textContent = data.countryAddress;
-  tempDiv.textContent = data.temp;
-  weatherMinTemp.textContent = `${data.minTemp}°`;
-  weatherMaxTemp.textContent = `${data.maxTemp}°`;
+  tempDiv.textContent = temp.toFahrenheit;
+  weatherMinTemp.textContent = minTemp.toFahrenheit;
+  weatherMaxTemp.textContent = maxTemp.toFahrenheit;
   conditionContainer.textContent = data.conditions;
   weatherSunrise.textContent = data.sunrise;
   weatherSunset.textContent = data.sunset;
@@ -62,6 +73,24 @@ function updateDOMAfterFetchingData(data) {
   footer.appendChild(weatherMinMaxTemp);
   footer.appendChild(weatherSunriseSunset);
   mainContainer.append(footer);
+
+  function tempHandler() {
+    tempDiv.textContent =
+      Number(tempDiv.textContent) === temp.toFahrenheit
+        ? temp.toCelsius
+        : temp.toFahrenheit;
+    weatherMinTemp.textContent =
+      Number(weatherMinTemp.textContent) === minTemp.toFahrenheit
+        ? minTemp.toCelsius
+        : minTemp.toFahrenheit;
+    weatherMaxTemp.textContent =
+      Number(weatherMaxTemp.textContent) === maxTemp.toFahrenheit
+        ? maxTemp.toCelsius
+        : maxTemp.toFahrenheit;
+  }
+
+  const switchInput = document.querySelector("input[type='checkbox']");
+  switchInput.onclick = () => tempHandler();
 }
 
 async function getWeatherData(location) {
