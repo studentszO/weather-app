@@ -9,34 +9,32 @@ const svgObject = svgContext.keys().reduce((acc, fileName) => {
   return acc;
 }, {});
 
-let neededData;
-
 function updateDOMAfterFetchingData(data) {
   const iconContainer = document.querySelector(".weather-icon");
   const cityNameContainer = document.querySelector(".city-name");
   const weatherSunriseContainer = document.querySelector(".weather-sunrise");
   const weatherSunsetContainer = document.querySelector(".weather-sunset");
   const tempContainer = document.querySelector(".weather-temp");
-  const feelsLikeContainer = document.querySelector(".weather-feelslike");
+  const minTempContainer = document.querySelector(".weather-min-temp");
+  const maxTempContainer = document.querySelector(".weather-max-temp");
   const conditionContainer = document.querySelector(".weather-conditions");
-  const degreeDiv = document.createElement("div");
 
-  const icon = document.createElement("img");
   const tempDiv = document.createElement("div");
+  const countryNameContainer = document.createElement("div");
 
-  tempContainer.append(tempDiv, degreeDiv);
-  iconContainer.append(icon);
+  iconContainer.style.backgroundImage = `url("${svgObject[data.icon]}")`;
 
-  icon.src = svgObject[data.icon];
-  icon.setAttribute("alt", `${data.icon} Icon`);
-
-  degreeDiv.textContent = "°";
-  cityNameContainer.textContent = data.address;
+  cityNameContainer.textContent = data.cityAddress;
+  countryNameContainer.textContent = data.countryAddress;
   tempDiv.textContent = data.temp;
-  feelsLikeContainer.textContent = `${data.feelsLike}°`;
+  minTempContainer.textContent = `${data.minTemp}°`;
+  maxTempContainer.textContent = `${data.maxTemp}°`;
   conditionContainer.textContent = data.conditions;
   weatherSunriseContainer.textContent = data.sunrise;
   weatherSunsetContainer.textContent = data.sunset;
+
+  cityNameContainer.append(countryNameContainer);
+  tempContainer.prepend(tempDiv);
 }
 
 async function getWeatherData(location) {
@@ -48,16 +46,17 @@ async function getWeatherData(location) {
 
     const dataStorage = await data.json();
 
-    neededData = {
-      address: dataStorage.resolvedAddress,
+    const neededData = {
+      cityAddress: dataStorage.resolvedAddress.split(", ")[0],
+      countryAddress: `${dataStorage.resolvedAddress.split(", ")[1]}, ${dataStorage.resolvedAddress.split(", ")[2]}`,
       conditions: dataStorage.currentConditions.conditions,
       temp: dataStorage.currentConditions.temp,
       icon: dataStorage.currentConditions.icon,
       sunrise: dataStorage.currentConditions.sunrise,
       sunset: dataStorage.currentConditions.sunset,
-      feelsLike: dataStorage.currentConditions.feelslike,
+      minTemp: dataStorage.days[0].tempmin,
+      maxTemp: dataStorage.days[0].tempmax,
     };
-
     updateDOMAfterFetchingData(neededData);
   } catch (err) {
     console.log(err);
