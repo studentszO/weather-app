@@ -91,7 +91,6 @@ h1 {
 .weather-icon {
   height: 140px;
   width: 140px;
-  background-image: url("./assets/weather_icons/clear-day.svg");
   background-repeat: no-repeat;
   background-position: center;
   position: relative;

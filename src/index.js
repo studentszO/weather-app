@@ -10,31 +10,58 @@ const svgObject = svgContext.keys().reduce((acc, fileName) => {
 }, {});
 
 function updateDOMAfterFetchingData(data) {
+  // QUERIES
+  const mainContainer = document.querySelector(".weather-container");
   const iconContainer = document.querySelector(".weather-icon");
   const cityNameContainer = document.querySelector(".city-name");
-  const weatherSunriseContainer = document.querySelector(".weather-sunrise");
-  const weatherSunsetContainer = document.querySelector(".weather-sunset");
   const tempContainer = document.querySelector(".weather-temp");
-  const minTempContainer = document.querySelector(".weather-min-temp");
-  const maxTempContainer = document.querySelector(".weather-max-temp");
   const conditionContainer = document.querySelector(".weather-conditions");
 
+  // ELEMENTS CREATION
   const tempDiv = document.createElement("div");
+  const degreeDiv = document.createElement("div");
   const countryNameContainer = document.createElement("div");
+  const footer = document.createElement("div");
+  const weatherMinMaxTemp = document.createElement("div");
+  const weatherMinTemp = document.createElement("div");
+  const weatherMaxTemp = document.createElement("div");
+  const weatherSunriseSunset = document.createElement("div");
+  const weatherSunrise = document.createElement("div");
+  const weatherSunset = document.createElement("div");
 
+  // ADDING CLASSES
+  footer.classList.add("footer");
+  weatherMinMaxTemp.classList.add("weather-minmax-temp");
+  weatherMinTemp.classList.add("weather-min-temp");
+  weatherMaxTemp.classList.add("weather-max-temp");
+  weatherSunriseSunset.classList.add("weather-sunrise-sunset");
+  weatherSunrise.classList.add("weather-sunrise");
+  weatherSunset.classList.add("weather-sunset");
+
+  // SET THE BACKGROUND IMAGE FOR THE ICON
   iconContainer.style.backgroundImage = `url("${svgObject[data.icon]}")`;
 
+  // ADDING CONTENT TO THE DOM ELEMENTS
+  degreeDiv.textContent = "°";
   cityNameContainer.textContent = data.cityAddress;
   countryNameContainer.textContent = data.countryAddress;
   tempDiv.textContent = data.temp;
-  minTempContainer.textContent = `${data.minTemp}°`;
-  maxTempContainer.textContent = `${data.maxTemp}°`;
+  weatherMinTemp.textContent = `${data.minTemp}°`;
+  weatherMaxTemp.textContent = `${data.maxTemp}°`;
   conditionContainer.textContent = data.conditions;
-  weatherSunriseContainer.textContent = data.sunrise;
-  weatherSunsetContainer.textContent = data.sunset;
+  weatherSunrise.textContent = data.sunrise;
+  weatherSunset.textContent = data.sunset;
 
+  // APPEND EVERYTHING
   cityNameContainer.append(countryNameContainer);
-  tempContainer.prepend(tempDiv);
+  tempContainer.prepend(tempDiv, degreeDiv);
+  weatherMinMaxTemp.appendChild(weatherMinTemp);
+  weatherMinMaxTemp.appendChild(weatherMaxTemp);
+  weatherSunriseSunset.appendChild(weatherSunrise);
+  weatherSunriseSunset.appendChild(weatherSunset);
+  footer.appendChild(weatherMinMaxTemp);
+  footer.appendChild(weatherSunriseSunset);
+  mainContainer.append(footer);
 }
 
 async function getWeatherData(location) {
@@ -57,6 +84,7 @@ async function getWeatherData(location) {
       minTemp: dataStorage.days[0].tempmin,
       maxTemp: dataStorage.days[0].tempmax,
     };
+
     updateDOMAfterFetchingData(neededData);
   } catch (err) {
     console.log(err);
@@ -67,7 +95,8 @@ const form = document.querySelector("form");
 
 form.addEventListener("submit", (event) => {
   const input = document.querySelector("input[type='search']");
-  console.log(input.value);
+
   event.preventDefault();
+
   if (input.value.length > 0) getWeatherData(input.value);
 });
