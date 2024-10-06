@@ -87,7 +87,8 @@ function updateDOMAfterFetchingData(data) {
 
   degreeDiv.textContent = "°";
   cityNameContainer.textContent = data.cityAddress;
-  countryNameContainer.textContent = data.countryAddress;
+  if (!data.countryAddress.includes(undefined))
+    countryNameContainer.textContent = data.countryAddress;
   tempDiv.textContent = temp.toFahrenheit;
   weatherMinTemp.textContent = minTemp.toFahrenheit;
   weatherMaxTemp.textContent = maxTemp.toFahrenheit;
