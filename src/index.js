@@ -19,6 +19,17 @@ function FtoCCalcul(temp) {
 function loading() {
   const textContainer = document.querySelector(".city-name");
   const loaderContainer = document.querySelector(".weather-icon");
+
+  // REMOVE FOOTER AND TEMP CONTENT WHEN SEARCHING AGAIN
+  const tempContainer = document.querySelector(".weather-temp");
+  const conditionContainer = document.querySelector(".weather-conditions");
+  const footerContainer = document.querySelector(".footer");
+
+  if (tempContainer) tempContainer.textContent = "";
+  if (conditionContainer) conditionContainer.textContent = "";
+  if (footerContainer) footerContainer.textContent = "";
+
+  loaderContainer.style = "";
   loaderContainer.classList.add("loader");
   textContainer.textContent = "LOADING";
 }
@@ -30,6 +41,11 @@ function updateDOMAfterFetchingData(data) {
   const cityNameContainer = document.querySelector(".city-name");
   const tempContainer = document.querySelector(".weather-temp");
   const conditionContainer = document.querySelector(".weather-conditions");
+
+  // REMOVE FOOTER AND TEMP CONTENT WHEN SEARCHING AGAIN
+  const footerContainer = document.querySelector(".footer");
+  if (footerContainer) footerContainer.remove();
+  tempContainer.textContent = "";
 
   // REMOVE LOADER FROM ICON CONTAINER
   iconContainer.classList.remove("loader");
