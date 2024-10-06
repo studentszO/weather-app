@@ -85,28 +85,6 @@ function updateDOMAfterFetchingData(data) {
   const temp = FtoCCalcul(data.maxTemp);
   const maxTemp = FtoCCalcul(data.minTemp);
 
-  degreeDiv.textContent = "°";
-  cityNameContainer.textContent = data.cityAddress;
-  if (!data.countryAddress.includes(undefined))
-    countryNameContainer.textContent = data.countryAddress;
-  tempDiv.textContent = temp.toFahrenheit;
-  weatherMinTemp.textContent = minTemp.toFahrenheit;
-  weatherMaxTemp.textContent = maxTemp.toFahrenheit;
-  conditionContainer.textContent = data.conditions;
-  weatherSunrise.textContent = data.sunrise;
-  weatherSunset.textContent = data.sunset;
-
-  // APPEND EVERYTHING
-  cityNameContainer.append(countryNameContainer);
-  tempContainer.prepend(tempDiv, degreeDiv);
-  weatherMinMaxTemp.appendChild(weatherMinTemp);
-  weatherMinMaxTemp.appendChild(weatherMaxTemp);
-  weatherSunriseSunset.appendChild(weatherSunrise);
-  weatherSunriseSunset.appendChild(weatherSunset);
-  footer.appendChild(weatherMinMaxTemp);
-  footer.appendChild(weatherSunriseSunset);
-  mainContainer.append(footer);
-
   function tempHandler() {
     tempDiv.textContent =
       Number(tempDiv.textContent) === temp.toFahrenheit
@@ -124,6 +102,34 @@ function updateDOMAfterFetchingData(data) {
 
   const switchInput = document.querySelector("input[type='checkbox']");
   switchInput.onclick = () => tempHandler();
+
+  degreeDiv.textContent = "°";
+  cityNameContainer.textContent = data.cityAddress;
+  if (!data.countryAddress.includes(undefined))
+    countryNameContainer.textContent = data.countryAddress;
+  tempDiv.textContent = switchInput.checked
+    ? temp.toCelsius
+    : temp.toFahrenheit;
+  weatherMinTemp.textContent = switchInput.checked
+    ? minTemp.toCelsius
+    : minTemp.toFahrenheit;
+  weatherMaxTemp.textContent = switchInput.checked
+    ? maxTemp.toCelsius
+    : maxTemp.toFahrenheit;
+  conditionContainer.textContent = data.conditions;
+  weatherSunrise.textContent = data.sunrise;
+  weatherSunset.textContent = data.sunset;
+
+  // APPEND EVERYTHING
+  cityNameContainer.append(countryNameContainer);
+  tempContainer.prepend(tempDiv, degreeDiv);
+  weatherMinMaxTemp.appendChild(weatherMinTemp);
+  weatherMinMaxTemp.appendChild(weatherMaxTemp);
+  weatherSunriseSunset.appendChild(weatherSunrise);
+  weatherSunriseSunset.appendChild(weatherSunset);
+  footer.appendChild(weatherMinMaxTemp);
+  footer.appendChild(weatherSunriseSunset);
+  mainContainer.append(footer);
 }
 
 function HTTPErrorHandler(statusCode) {
