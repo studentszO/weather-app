@@ -16,6 +16,13 @@ function FtoCCalcul(temp) {
   return { toCelsius, toFahrenheit };
 }
 
+function loading() {
+  const textContainer = document.querySelector(".city-name");
+  const loaderContainer = document.querySelector(".weather-icon");
+  loaderContainer.classList.add("loader");
+  textContainer.textContent = "LOADING";
+}
+
 function updateDOMAfterFetchingData(data) {
   // QUERIES
   const mainContainer = document.querySelector(".weather-container");
@@ -23,6 +30,9 @@ function updateDOMAfterFetchingData(data) {
   const cityNameContainer = document.querySelector(".city-name");
   const tempContainer = document.querySelector(".weather-temp");
   const conditionContainer = document.querySelector(".weather-conditions");
+
+  // REMOVE LOADER FROM ICON CONTAINER
+  iconContainer.classList.remove("loader");
 
   // ELEMENTS CREATION
   const tempDiv = document.createElement("div");
@@ -96,6 +106,7 @@ function updateDOMAfterFetchingData(data) {
 async function getWeatherData(location) {
   if (!location) return;
   try {
+    loading();
     const data = await fetch(
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=A9DLK3F7L33TUFZXEVW6GKL53`,
     );
