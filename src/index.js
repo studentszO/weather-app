@@ -25,6 +25,12 @@ function loading() {
   const conditionContainer = document.querySelector(".weather-conditions");
   const footerContainer = document.querySelector(".footer");
 
+  // SET THE COLOR BACK TO NORMAL IF AN ERROR HAPPENED
+  textContainer.style.color = "";
+
+  // RESET THE DISPLAY OF THE ERROR SVG TO NONE IF AN ERROR HAPPENED
+  document.querySelector(".weather-icon > svg").style.display = "none";
+
   if (tempContainer) tempContainer.textContent = "";
   if (conditionContainer) conditionContainer.textContent = "";
   if (footerContainer) footerContainer.textContent = "";
@@ -119,6 +125,47 @@ function updateDOMAfterFetchingData(data) {
   switchInput.onclick = () => tempHandler();
 }
 
+function HTTPErrorHandler(statusCode) {
+  const errorCodeContainer = document.querySelector(".city-name");
+  const errorDescriptionContainer = document.createElement("div");
+  const errorMarkSVG = document.querySelector(".weather-icon > svg");
+  errorMarkSVG.style.display = "block";
+  document.querySelector(".weather-icon").classList.remove("loader");
+
+  errorCodeContainer.style.color = "#ff2600";
+  errorDescriptionContainer.style.color = "#ff2600";
+
+  switch (statusCode) {
+    case 400:
+      errorCodeContainer.textContent = "ERROR 400";
+      errorDescriptionContainer.textContent =
+        "REQUEST INVALID: location not found.";
+      break;
+
+    case 401:
+      errorCodeContainer.textContent = "ERROR 401";
+      errorDescriptionContainer.textContent =
+        "API KEY invalid / ACCOUNT INACTIVE";
+      break;
+
+    case 429:
+      errorCodeContainer.textContent = "ERROR 429";
+      errorDescriptionContainer.textContent = "SUBMIT QUERIES EXCEEDED";
+      break;
+
+    case 500:
+      errorCodeContainer.textContent = "ERROR 500";
+      errorDescriptionContainer.textContent =
+        "API SERVER ERROR. PLEASE TRY AGAIN";
+      break;
+
+    default:
+      break;
+  }
+
+  errorCodeContainer.appendChild(errorDescriptionContainer);
+}
+
 async function getWeatherData(location) {
   if (!location) return;
   try {
@@ -127,6 +174,10 @@ async function getWeatherData(location) {
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=A9DLK3F7L33TUFZXEVW6GKL53`,
     );
 
+    if (!data.ok) {
+      //   throw new Error(`Response status: ${data.status}`);
+      HTTPErrorHandler(data.status);
+    }
     const dataStorage = await data.json();
 
     const neededData = {
