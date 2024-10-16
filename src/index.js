@@ -214,3 +214,9 @@ form.addEventListener("submit", (event) => {
 
   if (input.value.length > 0) getWeatherData(input.value);
 });
+
+let arr = [1, 2, 3];
+let arrCp = [...arr];
+arr.pop();
+console.log(arr);
+console.log(arrCp);
